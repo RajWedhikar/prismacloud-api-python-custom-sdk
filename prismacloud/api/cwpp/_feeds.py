@@ -7,8 +7,8 @@ class FeedsPrismaCloudAPICWPPMixin:
 
     # body_params = {"feed": ["10.10.10.10", "10.10.10.200"] }
     #
-    def feeds_ips_write(self, body_params):
-        return self.execute_compute('PUT', 'api/v1/feeds/custom/ips', body_params=body_params)
+    def feeds_ips_write(self, body_params, concurrent=False, max_workers=4):
+        return self.execute_compute('PUT', 'api/v1/feeds/custom/ips', body_params=body_params, concurrent=concurrent, max_workers=max_workers)
 
     # body_params = {
     #     "feed": [
@@ -25,8 +25,8 @@ class FeedsPrismaCloudAPICWPPMixin:
     #     ]
     # }
     #
-    def feeds_malware_write(self, body_params):
-        return self.execute_compute('PUT', 'api/v1/feeds/custom/malware', body_params=body_params)
+    def feeds_malware_write(self, body_params, concurrent=False, max_workers=4):
+        return self.execute_compute('PUT', 'api/v1/feeds/custom/malware', body_params=body_params, concurrent=concurrent, max_workers=max_workers)
 
     # body_params = {
     #     "_id": "",

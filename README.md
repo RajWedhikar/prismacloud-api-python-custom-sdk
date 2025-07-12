@@ -87,6 +87,72 @@ print(pc_api)
 print()
 ```
 
+#### CWPP Concurrent Execution
+
+The CWPP (Compute Workload Protection Platform) endpoints support concurrent execution for improved performance when fetching large datasets. You can enable concurrent execution and configure the number of worker threads:
+
+```
+# Basic concurrent execution (uses default 4 workers)
+hosts = pc_api.hosts_list_read(concurrent=True)
+
+# Custom worker count for concurrent execution
+hosts = pc_api.hosts_list_read(concurrent=True, max_workers=3)
+
+# Sequential execution (default behavior)
+hosts = pc_api.hosts_list_read(concurrent=False)
+
+# Available CWPP endpoints with concurrent support:
+# - hosts_list_read()
+# - hosts_info_list_read() 
+# - containers_list_read()
+# - images_list_read()
+# - defenders_list_read()
+# - registry_list_read()
+# - collections_list_read()
+# - audits_list_read()
+# - scans_list_read()
+# - serverless_list_read()
+# - vms_list_read()
+# - vulnerabilities_list_read()
+# - tags_list_read()
+# - cloud_discovery_vms()
+# - stats_daily_read()
+# - stats_vulnerabilities_read()
+# - stats_vulnerabilities_refresh_read()
+
+# Example: Fetch all hosts with 5 concurrent workers
+print('Fetching hosts with concurrent execution...')
+hosts = pc_api.hosts_list_read(concurrent=True, max_workers=5)
+print(f'Retrieved {len(hosts)} hosts')
+
+# Example: Fetch containers with default concurrent settings
+print('Fetching containers...')
+containers = pc_api.containers_list_read(concurrent=True)
+print(f'Retrieved {len(containers)} containers')
+```
+
+**Note**: Concurrent execution includes built-in rate limiting, circuit breaker protection, and retry logic to ensure reliable API communication.
+
+#### Enhanced Error Handling
+
+The SDK includes comprehensive error handling and retry mechanisms:
+
+```
+# Automatic retry with exponential backoff
+try:
+    result = pc_api.hosts_list_read(concurrent=True, max_workers=3)
+except Exception as e:
+    print(f"Request failed: {e}")
+
+# Built-in features:
+# - Circuit breaker pattern (prevents cascading failures)
+# - Rate limiting (respects API limits)
+# - Exponential backoff retry logic
+# - Authentication error recovery
+# - Connection pooling and timeout handling
+# - Progress tracking for large datasets
+```
+
 Settings can also be defined as environment variables:
 
 #### Environment Variables

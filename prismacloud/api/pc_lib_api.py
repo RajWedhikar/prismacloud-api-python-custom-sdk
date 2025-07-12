@@ -1,6 +1,7 @@
 """ Prisma Cloud API Class """
 
 import logging
+from threading import Lock
 
 from .cspm import PrismaCloudAPICSPM
 from .cwpp import PrismaCloudAPICWPP
@@ -51,6 +52,11 @@ class PrismaCloudAPI(PrismaCloudAPICSPM, PrismaCloudAPICWPP, PrismaCloudAPIPCCS)
         # Set User-Agent
         default_user_agent = f"PrismaCloudAPI/{version}"  # Dynamically set default User-Agent
         self.user_agent = default_user_agent
+        # Initialize thread lock for concurrent operations
+        self._token_lock = Lock()
+        
+        # Initialize enhanced error handling for CWPP module
+        self._initialize_enhanced_error_handling()
 
     def __repr__(self):
         return 'Prisma Cloud API:\n  API: (%s)\n  Compute API: (%s)\n  API Error Count: (%s)\n  API Token: (%s)' % (self.api, self.api_compute, self.logger.error.counter, self.token)
